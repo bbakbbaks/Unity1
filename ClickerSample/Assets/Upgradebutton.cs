@@ -9,9 +9,9 @@ public class Upgradebutton : MonoBehaviour {
     public string upgradeName;
 
     public int goldByUpgrade;
-    public int startGoldByUpgrade = 1;
+    public int startGoldByUpgrade;
 
-    public int currentCost = 1;
+    public int currentCost;
     public int startCurrentCost;
 
     public int level = 1;
@@ -21,9 +21,10 @@ public class Upgradebutton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        currentCost = startCurrentCost;
-        level = 1;
-        goldByUpgrade = startGoldByUpgrade;
+        //currentCost = startCurrentCost;
+        //level = 1;
+        //goldByUpgrade = startGoldByUpgrade;
+        DataController.GetInstance().LoadUpgradeButton(this);
         UpdateUI();
 	}
 
@@ -36,6 +37,7 @@ public class Upgradebutton : MonoBehaviour {
             DataController.GetInstance().AddGoldPerClick(goldByUpgrade);
             UpdateUpgrade();
             UpdateUI();
+            DataController.GetInstance().SaveUpgradeButton(this);
         }
     }
 
@@ -47,6 +49,8 @@ public class Upgradebutton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void UpdateUI () {
-        upgradeDisplay.text = upgradeName + "\nCost: " + currentCost + "\nNextGold: " + level + "\nAddClickPerGold: " + goldByUpgrade;
+        upgradeDisplay.text = upgradeName + "\nCost: " + currentCost + "\nNextGoldlevel: " + level + "\nAddClickPerGold: " + goldByUpgrade;
 	}
+
+
 }

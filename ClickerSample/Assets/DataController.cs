@@ -28,6 +28,7 @@ public class DataController : MonoBehaviour {
 
     void Awake()
     {
+        PlayerPrefs.DeleteAll();
         m_gold = PlayerPrefs.GetInt("Gold");
         m_goldPerClick = PlayerPrefs.GetInt("GoldPerClick", 1);
     }
@@ -70,6 +71,54 @@ public class DataController : MonoBehaviour {
     {
         m_goldPerClick += newGoldPerClick;
         SetGoldPerClick(m_goldPerClick);
+    }
+
+    public void LoadUpgradeButton(Upgradebutton upgradebutton)
+    {
+        string key = upgradebutton.upgradeName;
+        upgradebutton.level = PlayerPrefs.GetInt(key + "_level", 1);
+        upgradebutton.goldByUpgrade = PlayerPrefs.GetInt(key + "_goldByUpgrade", upgradebutton.startGoldByUpgrade);
+        upgradebutton.currentCost = PlayerPrefs.GetInt(key + "_cost", upgradebutton.startCurrentCost);
+    }
+
+    public void SaveUpgradeButton(Upgradebutton upgradebutton)
+    {
+        string key = upgradebutton.upgradeName;
+        PlayerPrefs.SetInt(key + "_level", upgradebutton.level);
+        PlayerPrefs.SetInt(key + "_goldByUpgrad", upgradebutton.goldByUpgrade);
+        PlayerPrefs.SetInt(key + "_cost", upgradebutton.currentCost);
+    }
+
+    public void LoadItemButton(ItemButton itemButton)
+    {
+        string key = itemButton.itemName;
+        itemButton.level = PlayerPrefs.GetInt(key + "_level");
+        itemButton.currentCost = PlayerPrefs.GetInt(key + "_cost", itemButton.startCurrentCost);
+        itemButton.goldPerSec = PlayerPrefs.GetInt(key + "_goldPerSec");
+        if(PlayerPrefs.GetInt(key+"_isPurchased")==1)
+        {
+            itemButton.isPurchased = true;
+        }
+        else
+        {
+            itemButton.isPurchased = false;
+        }
+    }
+
+    public void SaveItemButton(ItemButton itemButton)
+    {
+        string key = itemButton.itemName;
+        PlayerPrefs.SetInt(key + "_level", itemButton.level);
+        PlayerPrefs.SetInt(key + "_cost", itemButton.currentCost);
+        PlayerPrefs.SetInt(key + "_goldPerSec", itemButton.goldPerSec);
+        if(itemButton.isPurchased==true)
+        {
+            PlayerPrefs.SetInt(key + "_isPurchased", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt(key + "_isPurchased", 0);
+        }
     }
 
     // Use this for initialization
